@@ -8,6 +8,7 @@ import {
   removeQueryParam,
   setQuery,
   setBody,
+  upsertQueryParam,
 } from "./modifiers";
 import type { HttpMethod } from "./types";
 
@@ -48,6 +49,11 @@ export class HttpForge {
 
   setQuery(query: string): this {
     this.lines = setQuery(this.lines, query);
+    return this;
+  }
+
+  upsertQueryParam(key: string, value: string): this {
+    this.lines = upsertQueryParam(this.lines, key, value);
     return this;
   }
 

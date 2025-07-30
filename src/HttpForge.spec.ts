@@ -83,10 +83,11 @@ Authorization:Bearer token123
         .removeHeader("Authorization")
         .addHeader("Content-Length", "25")
         .body('{"updated": "content"}')
+        .upsertQueryParam("new", "value")
         .build();
 
       expect(result).toBe(
-        `POST /new/api/endpoint?completely=new&query=string HTTP/1.1\r\nHost: newhost.com\r\nX-Weird-Header  :   value with   spaces\r\nContent-Type: application/json\r\nX-Custom: header-value\r\nContent-Length: 25\r\n\r\n{"updated": "content"}`
+        `POST /new/api/endpoint?completely=new&query=string&new=value HTTP/1.1\r\nHost: newhost.com\r\nX-Weird-Header  :   value with   spaces\r\nContent-Type: application/json\r\nX-Custom: header-value\r\nContent-Length: 25\r\n\r\n{"updated": "content"}`
       );
     });
 

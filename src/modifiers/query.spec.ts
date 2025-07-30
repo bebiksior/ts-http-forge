@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { setQuery, addQueryParam, removeQueryParam } from "./query";
+import { setQuery, addQueryParam, removeQueryParam, upsertQueryParam } from "./query";
 import type { HTTPRequestLines } from "../types";
 
 describe("setQuery", () => {
@@ -332,6 +332,32 @@ describe("removeQueryParam", () => {
       const result = removeQueryParam(lines, "key");
 
       expect(result).not.toBe(lines);
+    });
+  });
+
+  describe("upsertQueryParam", () => {
+    it("should add parameter to request without existing query", () => {
+      const lines: HTTPRequestLines = ["GET /api/users HTTP/1.1"];
+
+      const result = upsertQueryParam(lines, "name", "john");
+
+      expect(result[0]).toBe("GET /api/users?name=john HTTP/1.1");
+    });
+
+    it("should update existing parameter value", () => {
+      const lines: HTTPRequestLines = ["GET /path?name=jane&age=25 HTTP/1.1"];
+
+      const result = upsertQueryParam(lines, "name", "john");
+
+      expect(result[0]).toBe("GET /path?name=john&age=25 HTTP/1.1");
+    });
+
+    it("should add parameter when other parameters exist", () => {
+      const lines: HTTPRequestLines = ["GET /path?existing=value HTTP/1.1"];
+
+      const result = upsertQueryParam(lines, "new", "param");
+
+      expect(result[0]).toBe("GET /path?existing=value&new=param HTTP/1.1");
     });
   });
 });

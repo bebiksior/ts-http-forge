@@ -21,6 +21,13 @@ export function removeQueryParam(lines: HTTPRequestLines, key: string): HTTPRequ
   return modifyRemoveParam(lines, key);
 }
 
+export function upsertQueryParam(lines: HTTPRequestLines, key: string, value: string): HTTPRequestLines {
+  if (lines.length === 0) throw new Error("Request cannot be empty");
+  if (!key.trim()) throw new Error("Query parameter key cannot be empty");
+
+  return modifyUpsertParam(lines, key, value);
+}
+
 function modify(lines: HTTPRequestLines, query: string): HTTPRequestLines {
   const requestLine = lines[0];
   const modifiedLine = replaceQueryInLine(requestLine, query);
@@ -38,6 +45,13 @@ function modifyAddParam(lines: HTTPRequestLines, key: string, value: string): HT
 function modifyRemoveParam(lines: HTTPRequestLines, key: string): HTTPRequestLines {
   const requestLine = lines[0];
   const modifiedLine = removeQueryParamFromLine(requestLine, key);
+
+  return [modifiedLine, ...lines.slice(1)];
+}
+
+function modifyUpsertParam(lines: HTTPRequestLines, key: string, value: string): HTTPRequestLines {
+  const requestLine = lines[0];
+  const modifiedLine = upsertQueryParamInLine(requestLine, key, value);
 
   return [modifiedLine, ...lines.slice(1)];
 }
@@ -106,6 +120,48 @@ function removeQueryParamFromLine(requestLine: string, key: string): string {
   if (!newQuery) {
     return requestLine.substring(0, questionMarkIndex) + remainingPart;
   }
+
+  return requestLine.substring(0, questionMarkIndex + 1) + newQuery + remainingPart;
+}
+
+function upsertQueryParamInLine(requestLine: string, key: string, value: string): string {
+  const questionMarkIndex = requestLine.indexOf("?");
+  const param = `${key}=${encodeURIComponent(value)}`;
+
+  if (questionMarkIndex === -1) {
+    const spaceIndex = requestLine.indexOf(" ", requestLine.indexOf(" ") + 1);
+    if (spaceIndex === -1) {
+      return requestLine + "?" + param;
+    }
+    return requestLine.substring(0, spaceIndex) + "?" + param + requestLine.substring(spaceIndex);
+  }
+
+  const spaceAfterQuery = requestLine.indexOf(" ", questionMarkIndex);
+  const queryEnd = spaceAfterQuery === -1 ? requestLine.length : spaceAfterQuery;
+  const existingQuery = requestLine.substring(questionMarkIndex + 1, queryEnd);
+
+  if (!existingQuery) {
+    const remainingPart = spaceAfterQuery === -1 ? "" : requestLine.substring(spaceAfterQuery);
+    return requestLine.substring(0, questionMarkIndex + 1) + param + remainingPart;
+  }
+
+  const params = existingQuery.split("&");
+  let paramExists = false;
+  const updatedParams = params.map(p => {
+    const [paramKey, ...rest] = p.split("=");
+    if (paramKey === key) {
+      paramExists = true;
+      return param;
+    }
+    return p;
+  });
+
+  if (!paramExists) {
+    updatedParams.push(param);
+  }
+
+  const newQuery = updatedParams.join("&");
+  const remainingPart = spaceAfterQuery === -1 ? "" : requestLine.substring(spaceAfterQuery);
 
   return requestLine.substring(0, questionMarkIndex + 1) + newQuery + remainingPart;
 }
