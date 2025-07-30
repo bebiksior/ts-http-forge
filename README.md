@@ -1,17 +1,17 @@
-# http-forge
+# ts-http-forge
 
 A tool for security researchers who need to modify HTTP requests in weird ways to test and trick HTTP parsers. This library lets you change any HTTP request without complaining about broken or invalid HTTP syntax. It will only give errors if you pass bad input or wrong arguments to the modifiers.
 
 ## Installation
 
 ```bash
-pnpm add http-forge
+pnpm add ts-http-forge
 ```
 
 ## Usage
 
 ```typescript
-import { HttpForge } from 'http-forge';
+import { HttpForge } from 'ts-http-forge';
 
 const modified = HttpForge.create(rawRequest)
   .method('POST')
