@@ -1,7 +1,7 @@
 {
   "name": "ts-http-forge",
-  "version": "0.1.0",
-  "description": "",
+  "version": "0.1.1",
+  "description": "A tool for security researchers who need to modify HTTP requests in weird ways to test and trick HTTP parsers.",
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -9,12 +9,13 @@
     "build": "tsc",
     "test": "vitest",
     "test:watch": "vitest --watch",
-    "dev": "vitest --watch"
+    "dev": "vitest --watch",
+    "prepublishOnly": "pnpm build"
   },
   "files": ["dist"],
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "bebiks",
+  "license": "MIT",
   "packageManager": "pnpm@10.13.1",
   "devDependencies": {
     "@types/node": "^24.1.0",
