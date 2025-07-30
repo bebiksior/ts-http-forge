@@ -26,6 +26,8 @@ const modified = HttpForge.create(rawRequest)
 - `.setQuery(query: string)` - Replace the entire query string
 - `.addQueryParam(key: string, value: string)` - Add a query parameter
 - `.removeQueryParam(key: string)` - Remove a query parameter
+- `.upsertQueryParam(key: string, value: string)` - Add or update a query parameter
+
 
 ### Headers
 - `.addHeader(name: string, value: string)` - Add a new header
