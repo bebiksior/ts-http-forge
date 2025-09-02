@@ -114,7 +114,7 @@ original body content`;
         .addHeader("X-API-Version", "v2")
         .removeHeader("X-Duplicate")
         .addHeader("Cache-Control", "no-cache")
-        .body('<data><status>updated</status></data>')
+        .body("<data><status>updated</status></data>")
         .build();
 
       expect(result).toBe(

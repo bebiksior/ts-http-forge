@@ -1,6 +1,6 @@
 {
   "name": "ts-http-forge",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "A tool for security researchers who need to modify HTTP requests in weird ways to test and trick HTTP parsers.",
   "type": "module",
   "main": "dist/index.js",

@@ -97,6 +97,7 @@ describe("setBody", () => {
         "POST /api/users HTTP/1.1",
         "Host: example.com",
         "",
+        "",
       ]);
     });
 
@@ -113,6 +114,7 @@ describe("setBody", () => {
       expect(result).toEqual([
         "POST /api/users HTTP/1.1",
         "Host: example.com",
+        "",
         "",
       ]);
     });
@@ -148,6 +150,24 @@ describe("setBody", () => {
       const result = setBody(lines, specialBody);
 
       expect(result[3]).toBe('body with "quotes" & symbols <> []');
+    });
+
+    it("should handle setting empty body", () => {
+      const lines: HTTPRequestLines = [
+        "POST /api/users HTTP/1.1",
+        "Host: example.com",
+        "",
+        "old body content",
+      ];
+
+      const result = setBody(lines, "");
+
+      expect(result).toEqual([
+        "POST /api/users HTTP/1.1",
+        "Host: example.com",
+        "",
+        "",
+      ]);
     });
   });
 
