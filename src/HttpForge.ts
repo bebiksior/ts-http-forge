@@ -9,6 +9,9 @@ import {
   setQuery,
   setBody,
   upsertQueryParam,
+  addCookie,
+  setCookie,
+  removeCookie,
 } from "./modifiers";
 import type { HttpMethod } from "./types";
 
@@ -74,6 +77,21 @@ export class HttpForge {
 
   body(body: string): this {
     this.lines = setBody(this.lines, body);
+    return this;
+  }
+
+  addCookie(name: string, value: string): this {
+    this.lines = addCookie(this.lines, name, value);
+    return this;
+  }
+
+  setCookie(name: string, value: string): this {
+    this.lines = setCookie(this.lines, name, value);
+    return this;
+  }
+
+  removeCookie(name: string): this {
+    this.lines = removeCookie(this.lines, name);
     return this;
   }
 

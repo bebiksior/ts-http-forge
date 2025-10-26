@@ -81,6 +81,7 @@ describe("setBody", () => {
                 "POST /api/users HTTP/1.1",
                 "Host: example.com",
                 "",
+                "",
             ]);
         });
         it("should remove body when only whitespace provided", () => {
@@ -94,6 +95,7 @@ describe("setBody", () => {
             expect(result).toEqual([
                 "POST /api/users HTTP/1.1",
                 "Host: example.com",
+                "",
                 "",
             ]);
         });
@@ -123,6 +125,21 @@ describe("setBody", () => {
             const specialBody = 'body with "quotes" & symbols <> []';
             const result = setBody(lines, specialBody);
             expect(result[3]).toBe('body with "quotes" & symbols <> []');
+        });
+        it("should handle setting empty body", () => {
+            const lines = [
+                "POST /api/users HTTP/1.1",
+                "Host: example.com",
+                "",
+                "old body content",
+            ];
+            const result = setBody(lines, "");
+            expect(result).toEqual([
+                "POST /api/users HTTP/1.1",
+                "Host: example.com",
+                "",
+                "",
+            ]);
         });
     });
     describe("edge cases", () => {

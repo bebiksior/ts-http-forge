@@ -8,10 +8,18 @@ export function setBody(lines, body) {
 function modify(lines, body) {
     const bodyStartIndex = findBodyStartIndex(lines);
     const newLines = [...lines.slice(0, bodyStartIndex)];
-    if (body.trim()) {
-        const bodyLines = body.split(/\r?\n/);
-        newLines.push(...bodyLines);
+    if (!body.trim()) {
+        const hadSeparator = bodyStartIndex > 0 && lines[bodyStartIndex - 1].trim() === "";
+        if (hadSeparator) {
+            newLines.push("");
+        }
+        else {
+            newLines.push("", "");
+        }
+        return newLines;
     }
+    const bodyLines = body.split(/\r?\n/);
+    newLines.push(...bodyLines);
     return newLines;
 }
 function findBodyStartIndex(lines) {

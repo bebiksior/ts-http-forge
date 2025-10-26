@@ -61,6 +61,49 @@ describe("HttpForge", () => {
     });
   });
 
+  describe("cookie chaining", () => {
+    it("should chain cookie modifications fluently", () => {
+      const request = `GET /api/users HTTP/1.1
+Host: example.com
+
+`;
+
+      const result = HttpForge.create(request)
+        .addCookie("session", "abc123")
+        .addCookie("user", "john")
+        .setCookie("session", "xyz789")
+        .removeCookie("user")
+        .build();
+
+      expect(result).toBe(
+        "GET /api/users HTTP/1.1\r\nHost: example.com\r\nCookie: session=xyz789\r\n\r\n"
+      );
+    });
+
+    it("should integrate cookie modifications with other operations", () => {
+      const request = `POST /api/data HTTP/1.1
+Host: api.example.com
+Content-Type: application/json
+
+{"key":"value"}`;
+
+      const result = HttpForge.create(request)
+        .addCookie("auth", "token123")
+        .addCookie("pref", "light")
+        .method("PUT")
+        .path("/api/v2/data")
+        .addQueryParam("version", "2")
+        .setCookie("pref", "dark")
+        .setHeader("Authorization", "Bearer token")
+        .body('{"updated":"data"}')
+        .build();
+
+      expect(result).toBe(
+        'PUT /api/v2/data?version=2 HTTP/1.1\r\nHost: api.example.com\r\nContent-Type: application/json\r\nCookie: auth=token123; pref=dark\r\nAuthorization: Bearer token\r\n\r\n{"updated":"data"}'
+      );
+    });
+  });
+
   describe("complex chaining scenarios", () => {
     it("should handle malformed request with all modifications and preserve odd syntax", () => {
       const request = `PATCH /api/../weird%20path?old=param&malformed=%XX HTTP/1.1

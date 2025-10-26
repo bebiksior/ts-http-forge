@@ -13,5 +13,8 @@ export declare class HttpForge {
     setHeader(name: string, value: string): this;
     removeHeader(name: string): this;
     body(body: string): this;
+    addCookie(name: string, value: string): this;
+    setCookie(name: string, value: string): this;
+    removeCookie(name: string): this;
     build(): string;
 }
