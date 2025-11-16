@@ -1,6 +1,11 @@
 import { parse, serialize } from "cookie-es";
 import type { HTTPRequestLines } from "../types";
 
+function enc(data: string){
+  if (data.slice(-1)===";"){ return data.slice(0, -1).replaceAll(";", "%3b")}
+  return data.replaceAll(";","%3b")
+}
+
 export function addCookie(lines: HTTPRequestLines, name: string, value: string): HTTPRequestLines {
   if (lines.length === 0) throw new Error("Request cannot be empty");
   if (!name.trim()) throw new Error("Cookie name cannot be empty");
@@ -26,7 +31,7 @@ function modifyAdd(lines: HTTPRequestLines, name: string, value: string): HTTPRe
   const cookieHeaderIndex = findCookieHeaderIndex(lines);
 
   if (cookieHeaderIndex === -1) {
-    const newCookieValue = serialize(name, value);
+    const newCookieValue = serialize(name, value, {enc});
     const insertIndex = findHeaderInsertIndex(lines);
     const newLines = [...lines];
     newLines.splice(insertIndex, 0, `Cookie: ${newCookieValue}`);
@@ -41,7 +46,7 @@ function modifyAdd(lines: HTTPRequestLines, name: string, value: string): HTTPRe
   cookies[name] = value;
 
   const newCookieValue = Object.entries(cookies)
-    .map(([k, v]) => serialize(k, v))
+    .map(([k, v]) => serialize(k, v, {enc}))
     .join("; ");
 
   const newLines = [...lines];
@@ -81,7 +86,7 @@ function modifyRemove(lines: HTTPRequestLines, name: string): HTTPRequestLines {
     newLines.splice(cookieHeaderIndex, 1);
   } else {
     const newCookieValue = remainingCookies
-      .map(([k, v]) => serialize(k, v))
+      .map(([k, v]) => serialize(k, v, {enc}))
       .join("; ");
     newLines[cookieHeaderIndex] = `Cookie: ${newCookieValue}`;
   }
