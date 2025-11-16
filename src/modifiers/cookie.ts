@@ -2,7 +2,7 @@ import { parse, serialize } from "cookie-es";
 import type { HTTPRequestLines } from "../types";
 
 function enc(data: string){
-  if (data.slice(-1)===";"){ return data.slice(0, -1).replaceAll(";", "%3b")}
+  if (data.slice(-1)===";"){ data = data.slice(0,-1) }
   return data.replaceAll(";","%3b")
 }
 
