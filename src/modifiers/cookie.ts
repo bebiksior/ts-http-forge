@@ -31,7 +31,7 @@ function modifyAdd(lines: HTTPRequestLines, name: string, value: string): HTTPRe
   const cookieHeaderIndex = findCookieHeaderIndex(lines);
 
   if (cookieHeaderIndex === -1) {
-    const newCookieValue = serialize(name, value, {enc});
+    const newCookieValue = serialize(name, value, {encode:enc});
     const insertIndex = findHeaderInsertIndex(lines);
     const newLines = [...lines];
     newLines.splice(insertIndex, 0, `Cookie: ${newCookieValue}`);
@@ -46,7 +46,7 @@ function modifyAdd(lines: HTTPRequestLines, name: string, value: string): HTTPRe
   cookies[name] = value;
 
   const newCookieValue = Object.entries(cookies)
-    .map(([k, v]) => serialize(k, v, {enc}))
+    .map(([k, v]) => serialize(k, v, {encode: enc}))
     .join("; ");
 
   const newLines = [...lines];
@@ -86,7 +86,7 @@ function modifyRemove(lines: HTTPRequestLines, name: string): HTTPRequestLines {
     newLines.splice(cookieHeaderIndex, 1);
   } else {
     const newCookieValue = remainingCookies
-      .map(([k, v]) => serialize(k, v, {enc}))
+      .map(([k, v]) => serialize(k, v, {encode: enc}))
       .join("; ");
     newLines[cookieHeaderIndex] = `Cookie: ${newCookieValue}`;
   }
