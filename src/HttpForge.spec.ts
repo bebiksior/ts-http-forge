@@ -104,6 +104,85 @@ Content-Type: application/json
     });
   });
 
+  describe("reader methods", () => {
+    it("should read method", () => {
+      const request = "GET /api/users HTTP/1.1\r\nHost: example.com\r\n\r\n";
+      const forge = HttpForge.create(request);
+      expect(forge.getMethod()).toBe("GET");
+    });
+
+    it("should read path", () => {
+      const request = "GET /api/users?id=123 HTTP/1.1\r\nHost: example.com\r\n\r\n";
+      const forge = HttpForge.create(request);
+      expect(forge.getPath()).toBe("/api/users");
+    });
+
+    it("should read query string", () => {
+      const request = "GET /api/users?id=123&name=test HTTP/1.1\r\n\r\n";
+      const forge = HttpForge.create(request);
+      expect(forge.getQuery()).toBe("id=123&name=test");
+    });
+
+    it("should read query params", () => {
+      const request = "GET /api/users?id=123&name=test HTTP/1.1\r\n\r\n";
+      const forge = HttpForge.create(request);
+      expect(forge.getQueryParams()).toEqual({ id: "123", name: "test" });
+    });
+
+    it("should read all headers", () => {
+      const request = "GET /api HTTP/1.1\r\nHost: example.com\r\nContent-Type: application/json\r\n\r\n";
+      const forge = HttpForge.create(request);
+      expect(forge.getHeaders()).toEqual({
+        host: ["example.com"],
+        "content-type": ["application/json"],
+      });
+    });
+
+    it("should read single header", () => {
+      const request = "GET /api HTTP/1.1\r\nHost: example.com\r\nContent-Type: application/json\r\n\r\n";
+      const forge = HttpForge.create(request);
+      expect(forge.getHeader("Host")).toBe("example.com");
+      expect(forge.getHeader("content-type")).toBe("application/json");
+    });
+
+    it("should read body", () => {
+      const request = "POST /api HTTP/1.1\r\nHost: example.com\r\n\r\n{\"key\":\"value\"}";
+      const forge = HttpForge.create(request);
+      expect(forge.getBody()).toBe('{"key":"value"}');
+    });
+
+    it("should read cookies", () => {
+      const request = "GET /api HTTP/1.1\r\nCookie: session=abc123; token=xyz789\r\n\r\n";
+      const forge = HttpForge.create(request);
+      expect(forge.getCookies()).toEqual({ session: "abc123", token: "xyz789" });
+    });
+
+    it("should read single cookie", () => {
+      const request = "GET /api HTTP/1.1\r\nCookie: session=abc123; token=xyz789\r\n\r\n";
+      const forge = HttpForge.create(request);
+      expect(forge.getCookie("session")).toBe("abc123");
+      expect(forge.getCookie("token")).toBe("xyz789");
+    });
+
+    it("should read after modifications", () => {
+      const request = "GET /api/users HTTP/1.1\r\nHost: example.com\r\n\r\n";
+      const forge = HttpForge.create(request)
+        .method("POST")
+        .path("/api/data")
+        .addQueryParam("id", "123")
+        .setHeader("Content-Type", "application/json")
+        .addCookie("session", "abc")
+        .body('{"test":"data"}');
+
+      expect(forge.getMethod()).toBe("POST");
+      expect(forge.getPath()).toBe("/api/data");
+      expect(forge.getQueryParams()).toEqual({ id: "123" });
+      expect(forge.getHeader("Content-Type")).toBe("application/json");
+      expect(forge.getCookie("session")).toBe("abc");
+      expect(forge.getBody()).toBe('{"test":"data"}');
+    });
+  });
+
   describe("complex chaining scenarios", () => {
     it("should handle malformed request with all modifications and preserve odd syntax", () => {
       const request = `PATCH /api/../weird%20path?old=param&malformed=%XX HTTP/1.1

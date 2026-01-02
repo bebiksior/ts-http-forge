@@ -1,3 +1,4 @@
+import { findBodyStartIndex } from "../readers/body";
 export function setBody(lines, body) {
     if (lines.length === 0)
         throw new Error("Request cannot be empty");
@@ -21,12 +22,4 @@ function modify(lines, body) {
     const bodyLines = body.split(/\r?\n/);
     newLines.push(...bodyLines);
     return newLines;
-}
-function findBodyStartIndex(lines) {
-    for (let i = 1; i < lines.length; i++) {
-        if (lines[i].trim() === "") {
-            return i + 1;
-        }
-    }
-    return lines.length;
 }

@@ -16,5 +16,14 @@ export declare class HttpForge {
     addCookie(name: string, value: string): this;
     setCookie(name: string, value: string): this;
     removeCookie(name: string): this;
+    getMethod(): HttpMethod | null;
+    getPath(): string | null;
+    getQuery(): string | null;
+    getQueryParams(): Record<string, string> | null;
+    getHeaders(): Record<string, string[]> | null;
+    getHeader(name: string): string | null;
+    getBody(): string | null;
+    getCookies(): Record<string, string> | null;
+    getCookie(name: string): string | null;
     build(): string;
 }

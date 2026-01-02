@@ -1,4 +1,5 @@
 import type { HTTPRequestLines } from "../types";
+import { findBodyStartIndex } from "../readers/body";
 
 export function setBody(
   lines: HTTPRequestLines,
@@ -30,14 +31,4 @@ function modify(lines: HTTPRequestLines, body: string): HTTPRequestLines {
   newLines.push(...bodyLines);
 
   return newLines;
-}
-
-function findBodyStartIndex(lines: HTTPRequestLines): number {
-  for (let i = 1; i < lines.length; i++) {
-    if (lines[i].trim() === "") {
-      return i + 1;
-    }
-  }
-
-  return lines.length;
 }

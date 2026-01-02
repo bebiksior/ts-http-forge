@@ -1,4 +1,11 @@
 import { parse, serialize } from "cookie-es";
+import { findHeaderIndex, findHeaderInsertIndex } from "../readers/headers";
+function enc(data) {
+    if (data.slice(-1) === ";") {
+        data = data.slice(0, -1);
+    }
+    return data.replaceAll(";", "%3b");
+}
 export function addCookie(lines, name, value) {
     if (lines.length === 0)
         throw new Error("Request cannot be empty");
@@ -21,9 +28,9 @@ export function removeCookie(lines, name) {
     return modifyRemove(lines, name);
 }
 function modifyAdd(lines, name, value) {
-    const cookieHeaderIndex = findCookieHeaderIndex(lines);
+    const cookieHeaderIndex = findHeaderIndex(lines, "Cookie");
     if (cookieHeaderIndex === -1) {
-        const newCookieValue = serialize(name, value);
+        const newCookieValue = serialize(name, value, { encode: enc });
         const insertIndex = findHeaderInsertIndex(lines);
         const newLines = [...lines];
         newLines.splice(insertIndex, 0, `Cookie: ${newCookieValue}`);
@@ -35,7 +42,7 @@ function modifyAdd(lines, name, value) {
     const cookies = parse(existingCookieValue);
     cookies[name] = value;
     const newCookieValue = Object.entries(cookies)
-        .map(([k, v]) => serialize(k, v))
+        .map(([k, v]) => serialize(k, v, { encode: enc }))
         .join("; ");
     const newLines = [...lines];
     newLines[cookieHeaderIndex] = `Cookie: ${newCookieValue}`;
@@ -45,7 +52,7 @@ function modifySet(lines, name, value) {
     return modifyAdd(lines, name, value);
 }
 function modifyRemove(lines, name) {
-    const cookieHeaderIndex = findCookieHeaderIndex(lines);
+    const cookieHeaderIndex = findHeaderIndex(lines, "Cookie");
     if (cookieHeaderIndex === -1) {
         return lines;
     }
@@ -64,33 +71,9 @@ function modifyRemove(lines, name) {
     }
     else {
         const newCookieValue = remainingCookies
-            .map(([k, v]) => serialize(k, v))
+            .map(([k, v]) => serialize(k, v, { encode: enc }))
             .join("; ");
         newLines[cookieHeaderIndex] = `Cookie: ${newCookieValue}`;
     }
     return newLines;
-}
-function findCookieHeaderIndex(lines) {
-    for (let i = 1; i < lines.length; i++) {
-        const line = lines[i];
-        if (line.trim() === "") {
-            break;
-        }
-        const colonIndex = line.indexOf(":");
-        if (colonIndex === -1)
-            continue;
-        const headerName = line.substring(0, colonIndex).trim().toLowerCase();
-        if (headerName === "cookie") {
-            return i;
-        }
-    }
-    return -1;
-}
-function findHeaderInsertIndex(lines) {
-    for (let i = 1; i < lines.length; i++) {
-        if (lines[i].trim() === "") {
-            return i;
-        }
-    }
-    return lines.length;
 }

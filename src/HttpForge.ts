@@ -13,6 +13,17 @@ import {
   setCookie,
   removeCookie,
 } from "./modifiers";
+import {
+  getMethod,
+  getPath,
+  getQuery,
+  getQueryParams,
+  getHeaders,
+  getHeader,
+  getBody,
+  getCookies,
+  getCookie,
+} from "./readers";
 import type { HttpMethod } from "./types";
 
 export class HttpForge {
@@ -93,6 +104,42 @@ export class HttpForge {
   removeCookie(name: string): this {
     this.lines = removeCookie(this.lines, name);
     return this;
+  }
+
+  getMethod(): HttpMethod | null {
+    return getMethod(this.lines);
+  }
+
+  getPath(): string | null {
+    return getPath(this.lines);
+  }
+
+  getQuery(): string | null {
+    return getQuery(this.lines);
+  }
+
+  getQueryParams(): Record<string, string> | null {
+    return getQueryParams(this.lines);
+  }
+
+  getHeaders(): Record<string, string[]> | null {
+    return getHeaders(this.lines);
+  }
+
+  getHeader(name: string): string | null {
+    return getHeader(this.lines, name);
+  }
+
+  getBody(): string | null {
+    return getBody(this.lines);
+  }
+
+  getCookies(): Record<string, string> | null {
+    return getCookies(this.lines);
+  }
+
+  getCookie(name: string): string | null {
+    return getCookie(this.lines, name);
   }
 
   build(): string {

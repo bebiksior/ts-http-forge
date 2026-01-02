@@ -1,4 +1,5 @@
 import { setMethod, addHeader, setHeader, removeHeader, setPath, addQueryParam, removeQueryParam, setQuery, setBody, upsertQueryParam, addCookie, setCookie, removeCookie, } from "./modifiers";
+import { getMethod, getPath, getQuery, getQueryParams, getHeaders, getHeader, getBody, getCookies, getCookie, } from "./readers";
 export class HttpForge {
     lines;
     constructor(request) {
@@ -61,6 +62,33 @@ export class HttpForge {
     removeCookie(name) {
         this.lines = removeCookie(this.lines, name);
         return this;
+    }
+    getMethod() {
+        return getMethod(this.lines);
+    }
+    getPath() {
+        return getPath(this.lines);
+    }
+    getQuery() {
+        return getQuery(this.lines);
+    }
+    getQueryParams() {
+        return getQueryParams(this.lines);
+    }
+    getHeaders() {
+        return getHeaders(this.lines);
+    }
+    getHeader(name) {
+        return getHeader(this.lines, name);
+    }
+    getBody() {
+        return getBody(this.lines);
+    }
+    getCookies() {
+        return getCookies(this.lines);
+    }
+    getCookie(name) {
+        return getCookie(this.lines, name);
     }
     build() {
         return this.lines.join("\r\n");

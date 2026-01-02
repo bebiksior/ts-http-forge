@@ -1,5 +1,6 @@
 import { parse, serialize } from "cookie-es";
 import type { HTTPRequestLines } from "../types";
+import { findHeaderIndex, findHeaderInsertIndex } from "../readers/headers";
 
 function enc(data: string){
   if (data.slice(-1)===";"){ data = data.slice(0,-1) }
@@ -28,7 +29,7 @@ export function removeCookie(lines: HTTPRequestLines, name: string): HTTPRequest
 }
 
 function modifyAdd(lines: HTTPRequestLines, name: string, value: string): HTTPRequestLines {
-  const cookieHeaderIndex = findCookieHeaderIndex(lines);
+  const cookieHeaderIndex = findHeaderIndex(lines, "Cookie");
 
   if (cookieHeaderIndex === -1) {
     const newCookieValue = serialize(name, value, {encode:enc});
@@ -60,7 +61,7 @@ function modifySet(lines: HTTPRequestLines, name: string, value: string): HTTPRe
 }
 
 function modifyRemove(lines: HTTPRequestLines, name: string): HTTPRequestLines {
-  const cookieHeaderIndex = findCookieHeaderIndex(lines);
+  const cookieHeaderIndex = findHeaderIndex(lines, "Cookie");
 
   if (cookieHeaderIndex === -1) {
     return lines;
@@ -92,33 +93,4 @@ function modifyRemove(lines: HTTPRequestLines, name: string): HTTPRequestLines {
   }
 
   return newLines;
-}
-
-function findCookieHeaderIndex(lines: HTTPRequestLines): number {
-  for (let i = 1; i < lines.length; i++) {
-    const line = lines[i];
-    if (line.trim() === "") {
-      break;
-    }
-
-    const colonIndex = line.indexOf(":");
-    if (colonIndex === -1) continue;
-
-    const headerName = line.substring(0, colonIndex).trim().toLowerCase();
-    if (headerName === "cookie") {
-      return i;
-    }
-  }
-
-  return -1;
-}
-
-function findHeaderInsertIndex(lines: HTTPRequestLines): number {
-  for (let i = 1; i < lines.length; i++) {
-    if (lines[i].trim() === "") {
-      return i;
-    }
-  }
-
-  return lines.length;
 }
