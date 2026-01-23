@@ -60,6 +60,8 @@ console.log(forge.getBody());          // '{"data":"value"}'
 
 #### Body
 - `.body(body: string)` - Set the request body
+- `.setBodyParam(name: string, value: string, options?)` - Set/add a body parameter (works with URL-encoded and JSON bodies)
+- `.removeBodyParam(name: string)` - Remove a body parameter
 
 ### Readers
 
@@ -79,3 +81,6 @@ console.log(forge.getBody());          // '{"data":"value"}'
 
 #### Body
 - `.getBody()` → `string | null` - Get the request body
+- `.getBodyType()` → `BodyType | null` - Get the body content type (`"json"`, `"urlencoded"`, `"multipart"`, or `"text"`)
+- `.getBodyParams()` → `Record<string, string> | null` - Get parsed body parameters (URL-encoded or JSON)
+- `.getBodyParam(name: string)` → `string | null` - Get a specific body parameter value

@@ -6,6 +6,14 @@ function enc(data) {
     }
     return data.replaceAll(";", "%3b");
 }
+/**
+ * Adds a cookie to the Cookie header, creating the header if needed.
+ * @param lines - The HTTP request lines array
+ * @param name - The cookie name
+ * @param value - The cookie value
+ * @returns The modified lines array with the added cookie
+ * @throws If the request is empty or cookie name is empty
+ */
 export function addCookie(lines, name, value) {
     if (lines.length === 0)
         throw new Error("Request cannot be empty");
@@ -13,6 +21,14 @@ export function addCookie(lines, name, value) {
         throw new Error("Cookie name cannot be empty");
     return modifyAdd(lines, name, value);
 }
+/**
+ * Sets a cookie value, updating existing or adding if not present.
+ * @param lines - The HTTP request lines array
+ * @param name - The cookie name
+ * @param value - The cookie value
+ * @returns The modified lines array with the set cookie
+ * @throws If the request is empty or cookie name is empty
+ */
 export function setCookie(lines, name, value) {
     if (lines.length === 0)
         throw new Error("Request cannot be empty");
@@ -20,6 +36,13 @@ export function setCookie(lines, name, value) {
         throw new Error("Cookie name cannot be empty");
     return modifySet(lines, name, value);
 }
+/**
+ * Removes a cookie from the Cookie header. Removes the header if no cookies remain.
+ * @param lines - The HTTP request lines array
+ * @param name - The cookie name to remove
+ * @returns The modified lines array with the cookie removed
+ * @throws If the request is empty or cookie name is empty
+ */
 export function removeCookie(lines, name) {
     if (lines.length === 0)
         throw new Error("Request cannot be empty");

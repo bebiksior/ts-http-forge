@@ -1,3 +1,10 @@
+/**
+ * Sets the entire query string, replacing any existing query.
+ * @param lines - The HTTP request lines array
+ * @param query - The new query string (without leading '?')
+ * @returns The modified lines array with the updated query string
+ * @throws If the request is empty or query is null/undefined
+ */
 export function setQuery(lines, query) {
     if (lines.length === 0)
         throw new Error("Request cannot be empty");
@@ -5,6 +12,14 @@ export function setQuery(lines, query) {
         throw new Error("Query cannot be null or undefined");
     return modify(lines, query);
 }
+/**
+ * Adds a query parameter, appending to existing parameters.
+ * @param lines - The HTTP request lines array
+ * @param key - The parameter key
+ * @param value - The parameter value (will be URL-encoded)
+ * @returns The modified lines array with the added parameter
+ * @throws If the request is empty or key is empty
+ */
 export function addQueryParam(lines, key, value) {
     if (lines.length === 0)
         throw new Error("Request cannot be empty");
@@ -12,6 +27,13 @@ export function addQueryParam(lines, key, value) {
         throw new Error("Query parameter key cannot be empty");
     return modifyAddParam(lines, key, value);
 }
+/**
+ * Removes all query parameters with the specified key.
+ * @param lines - The HTTP request lines array
+ * @param key - The parameter key to remove
+ * @returns The modified lines array with the parameter removed
+ * @throws If the request is empty or key is empty
+ */
 export function removeQueryParam(lines, key) {
     if (lines.length === 0)
         throw new Error("Request cannot be empty");
@@ -19,6 +41,14 @@ export function removeQueryParam(lines, key) {
         throw new Error("Query parameter key cannot be empty");
     return modifyRemoveParam(lines, key);
 }
+/**
+ * Updates an existing query parameter or adds it if not present.
+ * @param lines - The HTTP request lines array
+ * @param key - The parameter key
+ * @param value - The parameter value (will be URL-encoded)
+ * @returns The modified lines array with the upserted parameter
+ * @throws If the request is empty or key is empty
+ */
 export function upsertQueryParam(lines, key, value) {
     if (lines.length === 0)
         throw new Error("Request cannot be empty");

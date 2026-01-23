@@ -1,3 +1,8 @@
+/**
+ * Extracts the request path from the request line, excluding query string and fragment.
+ * @param lines - The parsed HTTP request lines
+ * @returns The path portion of the URL or null if not found
+ */
 export function getPath(lines) {
     if (lines.length === 0)
         return null;

@@ -1,4 +1,12 @@
 import { findHeaderIndex, findHeaderInsertIndex } from "../readers/headers";
+/**
+ * Adds a header to the request. Does not check for duplicates.
+ * @param lines - The HTTP request lines array
+ * @param name - The header name
+ * @param value - The header value
+ * @returns The modified lines array with the added header
+ * @throws If the request is empty or header name is empty
+ */
 export function addHeader(lines, name, value) {
     if (lines.length === 0)
         throw new Error("Request cannot be empty");
@@ -6,6 +14,14 @@ export function addHeader(lines, name, value) {
         throw new Error("Header name cannot be empty");
     return modifyAdd(lines, name, value);
 }
+/**
+ * Sets a header value, updating existing or adding if not present.
+ * @param lines - The HTTP request lines array
+ * @param name - The header name
+ * @param value - The header value
+ * @returns The modified lines array with the set header
+ * @throws If the request is empty or header name is empty
+ */
 export function setHeader(lines, name, value) {
     if (lines.length === 0)
         throw new Error("Request cannot be empty");
@@ -13,6 +29,13 @@ export function setHeader(lines, name, value) {
         throw new Error("Header name cannot be empty");
     return modifySet(lines, name, value);
 }
+/**
+ * Removes all headers with the specified name (case-insensitive).
+ * @param lines - The HTTP request lines array
+ * @param name - The header name to remove
+ * @returns The modified lines array with the header removed
+ * @throws If the request is empty or header name is empty
+ */
 export function removeHeader(lines, name) {
     if (lines.length === 0)
         throw new Error("Request cannot be empty");

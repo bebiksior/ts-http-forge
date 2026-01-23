@@ -1,3 +1,8 @@
+/**
+ * Extracts all headers from the request as a map of lowercase names to value arrays.
+ * @param lines - The parsed HTTP request lines
+ * @returns An object mapping header names to arrays of values, or null if no lines
+ */
 export function getHeaders(lines) {
     if (lines.length === 0)
         return null;
@@ -20,6 +25,12 @@ export function getHeaders(lines) {
     }
     return headers;
 }
+/**
+ * Gets the first value of a specific header (case-insensitive).
+ * @param lines - The parsed HTTP request lines
+ * @param name - The header name to look up
+ * @returns The first header value or null if not found
+ */
 export function getHeader(lines, name) {
     const headers = getHeaders(lines);
     if (!headers)
@@ -30,6 +41,12 @@ export function getHeader(lines, name) {
         return null;
     return values[0];
 }
+/**
+ * Finds the line index of a header by name (case-insensitive).
+ * @param lines - The parsed HTTP request lines
+ * @param name - The header name to find
+ * @returns The index of the header line or -1 if not found
+ */
 export function findHeaderIndex(lines, name) {
     const lowerName = name.toLowerCase();
     for (let i = 1; i < lines.length; i++) {
@@ -47,6 +64,11 @@ export function findHeaderIndex(lines, name) {
     }
     return -1;
 }
+/**
+ * Finds the index where a new header should be inserted (before the empty line separating headers from body).
+ * @param lines - The parsed HTTP request lines
+ * @returns The index for inserting a new header
+ */
 export function findHeaderInsertIndex(lines) {
     for (let i = 1; i < lines.length; i++) {
         if (lines[i].trim() === "") {

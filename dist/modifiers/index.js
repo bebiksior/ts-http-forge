@@ -4,3 +4,4 @@ export { setQuery, addQueryParam, removeQueryParam, upsertQueryParam } from "./q
 export { addHeader, setHeader, removeHeader } from "./headers";
 export { setBody } from "./body";
 export { addCookie, setCookie, removeCookie } from "./cookie";
+export { setBodyParam, removeBodyParam } from "./bodyParams";

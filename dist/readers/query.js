@@ -1,3 +1,8 @@
+/**
+ * Extracts the raw query string from the request line.
+ * @param lines - The parsed HTTP request lines
+ * @returns The query string (without leading ?) or null if no query present
+ */
 export function getQuery(lines) {
     if (lines.length === 0)
         return null;
@@ -9,6 +14,11 @@ export function getQuery(lines) {
     const queryEnd = spaceAfterQuery === -1 ? requestLine.length : spaceAfterQuery;
     return requestLine.substring(questionMarkIndex + 1, queryEnd);
 }
+/**
+ * Parses the query string into key-value pairs.
+ * @param lines - The parsed HTTP request lines
+ * @returns An object of decoded query parameters or null if no query present
+ */
 export function getQueryParams(lines) {
     const query = getQuery(lines);
     if (query === null)

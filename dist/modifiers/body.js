@@ -1,4 +1,11 @@
 import { findBodyStartIndex } from "../readers/body";
+/**
+ * Sets the raw request body, replacing any existing body content.
+ * @param lines - The HTTP request lines array
+ * @param body - The new body content
+ * @returns The modified lines array with the updated body
+ * @throws If the request is empty or body is null/undefined
+ */
 export function setBody(lines, body) {
     if (lines.length === 0)
         throw new Error("Request cannot be empty");

@@ -1,5 +1,12 @@
 import type { HTTPRequestLines } from "../types";
 
+/**
+ * Sets the entire query string, replacing any existing query.
+ * @param lines - The HTTP request lines array
+ * @param query - The new query string (without leading '?')
+ * @returns The modified lines array with the updated query string
+ * @throws If the request is empty or query is null/undefined
+ */
 export function setQuery(lines: HTTPRequestLines, query: string): HTTPRequestLines {
   if (lines.length === 0) throw new Error("Request cannot be empty");
   if (query === undefined || query === null) throw new Error("Query cannot be null or undefined");
@@ -7,6 +14,14 @@ export function setQuery(lines: HTTPRequestLines, query: string): HTTPRequestLin
   return modify(lines, query);
 }
 
+/**
+ * Adds a query parameter, appending to existing parameters.
+ * @param lines - The HTTP request lines array
+ * @param key - The parameter key
+ * @param value - The parameter value (will be URL-encoded)
+ * @returns The modified lines array with the added parameter
+ * @throws If the request is empty or key is empty
+ */
 export function addQueryParam(lines: HTTPRequestLines, key: string, value: string): HTTPRequestLines {
   if (lines.length === 0) throw new Error("Request cannot be empty");
   if (!key.trim()) throw new Error("Query parameter key cannot be empty");
@@ -14,6 +29,13 @@ export function addQueryParam(lines: HTTPRequestLines, key: string, value: strin
   return modifyAddParam(lines, key, value);
 }
 
+/**
+ * Removes all query parameters with the specified key.
+ * @param lines - The HTTP request lines array
+ * @param key - The parameter key to remove
+ * @returns The modified lines array with the parameter removed
+ * @throws If the request is empty or key is empty
+ */
 export function removeQueryParam(lines: HTTPRequestLines, key: string): HTTPRequestLines {
   if (lines.length === 0) throw new Error("Request cannot be empty");
   if (!key.trim()) throw new Error("Query parameter key cannot be empty");
@@ -21,6 +43,14 @@ export function removeQueryParam(lines: HTTPRequestLines, key: string): HTTPRequ
   return modifyRemoveParam(lines, key);
 }
 
+/**
+ * Updates an existing query parameter or adds it if not present.
+ * @param lines - The HTTP request lines array
+ * @param key - The parameter key
+ * @param value - The parameter value (will be URL-encoded)
+ * @returns The modified lines array with the upserted parameter
+ * @throws If the request is empty or key is empty
+ */
 export function upsertQueryParam(lines: HTTPRequestLines, key: string, value: string): HTTPRequestLines {
   if (lines.length === 0) throw new Error("Request cannot be empty");
   if (!key.trim()) throw new Error("Query parameter key cannot be empty");

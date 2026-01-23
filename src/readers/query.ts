@@ -1,5 +1,10 @@
 import type { HTTPRequestLines } from "../types";
 
+/**
+ * Extracts the raw query string from the request line.
+ * @param lines - The parsed HTTP request lines
+ * @returns The query string (without leading ?) or null if no query present
+ */
 export function getQuery(lines: HTTPRequestLines): string | null {
   if (lines.length === 0) return null;
 
@@ -14,6 +19,11 @@ export function getQuery(lines: HTTPRequestLines): string | null {
   return requestLine.substring(questionMarkIndex + 1, queryEnd);
 }
 
+/**
+ * Parses the query string into key-value pairs.
+ * @param lines - The parsed HTTP request lines
+ * @returns An object of decoded query parameters or null if no query present
+ */
 export function getQueryParams(lines: HTTPRequestLines): Record<string, string> | null {
   const query = getQuery(lines);
   if (query === null) return null;
