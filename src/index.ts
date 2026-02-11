@@ -8,7 +8,7 @@
  * @packageDocumentation
  */
 
-export * from './HttpForge';
+export * from './HttpForge.js';
 
 export {
   getMethod,
@@ -23,8 +23,8 @@ export {
   getBodyType,
   getBodyParams,
   getBodyParam,
-} from "./readers";
+} from "./readers/index.js";
 
-export type { BodyType } from "./readers";
-export type { SetBodyParamOptions } from "./modifiers";
-export type { HttpMethod, HTTPRequestLines } from "./types";
+export type { BodyType } from "./readers/index.js";
+export type { SetBodyParamOptions } from "./modifiers/index.js";
+export type { HttpMethod, HTTPRequestLines } from "./types.js";

@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { getCookies, getCookie } from "./cookie";
+import { getCookies, getCookie } from "./cookie.js";
 describe("getCookies", () => {
     it("should extract all cookies", () => {
         const lines = [

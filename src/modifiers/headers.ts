@@ -1,5 +1,5 @@
-import type { HTTPRequestLines } from "../types";
-import { findHeaderIndex, findHeaderInsertIndex } from "../readers/headers";
+import type { HTTPRequestLines } from "../types.js";
+import { findHeaderIndex, findHeaderInsertIndex } from "../readers/headers.js";
 
 /**
  * Adds a header to the request. Does not check for duplicates.

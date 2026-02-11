@@ -1,4 +1,4 @@
-import type { HTTPRequestLines, HttpMethod } from "../types";
+import type { HTTPRequestLines, HttpMethod } from "../types.js";
 /**
  * Changes the HTTP method in the request line.
  * @param lines - The HTTP request lines array

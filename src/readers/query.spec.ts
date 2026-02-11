@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { getQuery, getQueryParams } from "./query";
+import { getQuery, getQueryParams } from "./query.js";
 
 describe("getQuery", () => {
   it("should extract query string", () => {

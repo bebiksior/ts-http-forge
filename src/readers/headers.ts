@@ -1,4 +1,4 @@
-import type { HTTPRequestLines } from "../types";
+import type { HTTPRequestLines } from "../types.js";
 
 /**
  * Extracts all headers from the request as a map of lowercase names to value arrays.

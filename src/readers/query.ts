@@ -1,4 +1,4 @@
-import type { HTTPRequestLines } from "../types";
+import type { HTTPRequestLines } from "../types.js";
 
 /**
  * Extracts the raw query string from the request line.

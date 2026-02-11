@@ -1,4 +1,4 @@
-import type { HTTPRequestLines } from "../types";
+import type { HTTPRequestLines } from "../types.js";
 /**
  * Adds a cookie to the Cookie header, creating the header if needed.
  * @param lines - The HTTP request lines array

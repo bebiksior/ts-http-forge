@@ -1,8 +1,8 @@
-export { getMethod } from "./method";
-export { getPath } from "./path";
-export { getQuery, getQueryParams } from "./query";
-export { getHeaders, getHeader } from "./headers";
-export { getBody } from "./body";
-export { getCookies, getCookie } from "./cookie";
-export { getBodyType, getBodyParams, getBodyParam } from "./bodyParams";
-export type { BodyType } from "./bodyParams";
+export { getMethod } from "./method.js";
+export { getPath } from "./path.js";
+export { getQuery, getQueryParams } from "./query.js";
+export { getHeaders, getHeader } from "./headers.js";
+export { getBody } from "./body.js";
+export { getCookies, getCookie } from "./cookie.js";
+export { getBodyType, getBodyParams, getBodyParam } from "./bodyParams.js";
+export type { BodyType } from "./bodyParams.js";

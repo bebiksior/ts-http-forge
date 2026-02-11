@@ -1,8 +1,8 @@
-import type { HTTPRequestLines, HttpMethod } from "../types";
-import { getBody, findBodyStartIndex } from "../readers/body";
-import { getBodyType, inferBodyType, BodyType } from "../readers/bodyParams";
-import { getMethod } from "../readers/method";
-import { findHeaderIndex, findHeaderInsertIndex } from "../readers/headers";
+import type { HTTPRequestLines, HttpMethod } from "../types.js";
+import { getBody, findBodyStartIndex } from "../readers/body.js";
+import { getBodyType, inferBodyType, BodyType } from "../readers/bodyParams.js";
+import { getMethod } from "../readers/method.js";
+import { findHeaderIndex, findHeaderInsertIndex } from "../readers/headers.js";
 
 /**
  * Options for setBodyParam function.

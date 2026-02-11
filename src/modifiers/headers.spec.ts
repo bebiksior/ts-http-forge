@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
-import { addHeader, setHeader, removeHeader } from "./headers";
-import type { HTTPRequestLines } from "../types";
+import { addHeader, setHeader, removeHeader } from "./headers.js";
+import type { HTTPRequestLines } from "../types.js";
 
 describe("addHeader", () => {
   describe("valid input", () => {

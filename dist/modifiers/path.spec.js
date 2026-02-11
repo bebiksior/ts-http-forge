@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { setPath } from "./path";
+import { setPath } from "./path.js";
 describe("setPath", () => {
     describe("valid input", () => {
         it("should replace path in standard request line", () => {

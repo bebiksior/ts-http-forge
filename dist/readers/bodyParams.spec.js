@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { getBodyType, getBodyParams, getBodyParam, inferBodyType } from "./bodyParams";
+import { getBodyType, getBodyParams, getBodyParam, inferBodyType } from "./bodyParams.js";
 describe("getBodyType", () => {
     describe("content-type header detection", () => {
         it("should detect json from content-type header", () => {
@@ -263,15 +263,19 @@ describe("getBodyParams", () => {
             ];
             expect(getBodyParams(lines)).toBeNull();
         });
-        it("should skip nested objects in JSON", () => {
+        it("should stringify nested objects and arrays in JSON", () => {
             const lines = [
                 "POST /api HTTP/1.1",
                 "Content-Type: application/json",
                 "",
-                '{"simple": "value", "nested": {"a": "b"}}',
+                '{"simple": "value", "nested": {"a": "b"}, "items": [1, 2, 3]}',
             ];
             const result = getBodyParams(lines);
-            expect(result).toEqual({ simple: "value" });
+            expect(result).toEqual({
+                simple: "value",
+                nested: '{"a":"b"}',
+                items: "[1,2,3]",
+            });
         });
         it("should handle urlencoded with invalid encoding gracefully", () => {
             const lines = [

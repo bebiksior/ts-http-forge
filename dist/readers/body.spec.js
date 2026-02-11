@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { getBody, findBodyStartIndex } from "./body";
+import { getBody, findBodyStartIndex } from "./body.js";
 describe("getBody", () => {
     it("should extract simple body", () => {
         const lines = [

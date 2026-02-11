@@ -7,8 +7,8 @@
  *
  * @packageDocumentation
  */
-export * from './HttpForge';
-export { getMethod, getPath, getQuery, getQueryParams, getHeaders, getHeader, getBody, getCookies, getCookie, getBodyType, getBodyParams, getBodyParam, } from "./readers";
-export type { BodyType } from "./readers";
-export type { SetBodyParamOptions } from "./modifiers";
-export type { HttpMethod, HTTPRequestLines } from "./types";
+export * from './HttpForge.js';
+export { getMethod, getPath, getQuery, getQueryParams, getHeaders, getHeader, getBody, getCookies, getCookie, getBodyType, getBodyParams, getBodyParam, } from "./readers/index.js";
+export type { BodyType } from "./readers/index.js";
+export type { SetBodyParamOptions } from "./modifiers/index.js";
+export type { HttpMethod, HTTPRequestLines } from "./types.js";

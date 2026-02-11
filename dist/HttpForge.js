@@ -1,9 +1,9 @@
-import { setMethod, addHeader, setHeader, removeHeader, setPath, addQueryParam, removeQueryParam, setQuery, setBody, upsertQueryParam, addCookie, setCookie, removeCookie, setBodyParam, removeBodyParam, } from "./modifiers";
-import { getMethod, getPath, getQuery, getQueryParams, getHeaders, getHeader, getBody, getCookies, getCookie, getBodyType, getBodyParams, getBodyParam, } from "./readers";
+import { setMethod, addHeader, setHeader, removeHeader, setPath, addQueryParam, removeQueryParam, setQuery, setBody, upsertQueryParam, addCookie, setCookie, removeCookie, setBodyParam, removeBodyParam, } from "./modifiers/index.js";
+import { getMethod, getPath, getQuery, getQueryParams, getHeaders, getHeader, getBody, getCookies, getCookie, getBodyType, getBodyParams, getBodyParam, } from "./readers/index.js";
 /**
  * A string-first HTTP request manipulation library for security researchers.
  *
- * HttpForge provides a fluent builder pattern API for reading and modifying raw HTTP request strings.
+ * HttpForge provides a builder pattern API for reading and modifying raw HTTP request strings.
  * Use the static {@link HttpForge.create} method to instantiate.
  *
  * @example

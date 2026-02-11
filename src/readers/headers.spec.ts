@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { getHeaders, getHeader, findHeaderIndex, findHeaderInsertIndex } from "./headers";
+import { getHeaders, getHeader, findHeaderIndex, findHeaderInsertIndex } from "./headers.js";
 
 describe("getHeaders", () => {
   it("should extract all headers", () => {

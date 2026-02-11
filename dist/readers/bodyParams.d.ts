@@ -1,4 +1,4 @@
-import type { HTTPRequestLines } from "../types";
+import type { HTTPRequestLines } from "../types.js";
 /** The detected body content type. */
 export type BodyType = "json" | "urlencoded" | "unknown";
 /**

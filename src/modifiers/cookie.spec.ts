@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
-import { addCookie, setCookie, removeCookie } from "./cookie";
-import type { HTTPRequestLines } from "../types";
+import { addCookie, setCookie, removeCookie } from "./cookie.js";
+import type { HTTPRequestLines } from "../types.js";
 
 describe("addCookie", () => {
   describe("valid input", () => {

@@ -1,4 +1,4 @@
-import type { HTTPRequestLines } from "../types";
+import type { HTTPRequestLines } from "../types.js";
 /**
  * Extracts all cookies from the Cookie header.
  * @param lines - The parsed HTTP request lines

@@ -1,7 +1,7 @@
-import { getBody, findBodyStartIndex } from "../readers/body";
-import { getBodyType, inferBodyType } from "../readers/bodyParams";
-import { getMethod } from "../readers/method";
-import { findHeaderIndex, findHeaderInsertIndex } from "../readers/headers";
+import { getBody, findBodyStartIndex } from "../readers/body.js";
+import { getBodyType, inferBodyType } from "../readers/bodyParams.js";
+import { getMethod } from "../readers/method.js";
+import { findHeaderIndex, findHeaderInsertIndex } from "../readers/headers.js";
 /**
  * Sets a body parameter, auto-detecting JSON or urlencoded format.
  * Creates body and Content-Type header if needed. Switches GET/HEAD to POST.

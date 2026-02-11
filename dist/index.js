@@ -7,5 +7,5 @@
  *
  * @packageDocumentation
  */
-export * from './HttpForge';
-export { getMethod, getPath, getQuery, getQueryParams, getHeaders, getHeader, getBody, getCookies, getCookie, getBodyType, getBodyParams, getBodyParam, } from "./readers";
+export * from './HttpForge.js';
+export { getMethod, getPath, getQuery, getQueryParams, getHeaders, getHeader, getBody, getCookies, getCookie, getBodyType, getBodyParams, getBodyParam, } from "./readers/index.js";

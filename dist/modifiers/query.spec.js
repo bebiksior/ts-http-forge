@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { setQuery, addQueryParam, removeQueryParam, upsertQueryParam } from "./query";
+import { setQuery, addQueryParam, removeQueryParam, upsertQueryParam } from "./query.js";
 describe("setQuery", () => {
     describe("valid input", () => {
         it("should add query string to request without existing query", () => {

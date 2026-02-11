@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { HttpForge } from "../src/index";
+import { HttpForge } from "../src/index.js";
 describe("HttpForge", () => {
     it("should chain multiple modifications fluently", () => {
         const request = "GET /api/users HTTP/1.1\r\nHost :example.com\r\nAuthorization: Bearer token\r\n\r\nbody content";

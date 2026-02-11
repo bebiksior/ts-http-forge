@@ -1,5 +1,5 @@
-import { getBody } from "./body";
-import { getHeader } from "./headers";
+import { getBody } from "./body.js";
+import { getHeader } from "./headers.js";
 /**
  * Determines the body type from Content-Type header or by inference.
  * @param lines - The parsed HTTP request lines
@@ -103,6 +103,9 @@ function parseJsonParams(body) {
                 typeof value === "boolean" ||
                 value === null) {
                 result[key] = String(value);
+            }
+            else {
+                result[key] = JSON.stringify(value);
             }
         }
         return result;

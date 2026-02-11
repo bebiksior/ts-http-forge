@@ -1,10 +1,10 @@
-import { type SetBodyParamOptions } from "./modifiers";
-import { type BodyType } from "./readers";
-import type { HttpMethod } from "./types";
+import { type SetBodyParamOptions } from "./modifiers/index.js";
+import { type BodyType } from "./readers/index.js";
+import type { HttpMethod } from "./types.js";
 /**
  * A string-first HTTP request manipulation library for security researchers.
  *
- * HttpForge provides a fluent builder pattern API for reading and modifying raw HTTP request strings.
+ * HttpForge provides a builder pattern API for reading and modifying raw HTTP request strings.
  * Use the static {@link HttpForge.create} method to instantiate.
  *
  * @example

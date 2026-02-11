@@ -1,4 +1,4 @@
-import type { HTTPRequestLines } from "../types";
+import type { HTTPRequestLines } from "../types.js";
 
 /**
  * Changes the request path (without query string). Spaces are URL-encoded to %20.

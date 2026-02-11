@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
-import { setBody } from "./body";
-import type { HTTPRequestLines } from "../types";
+import { setBody } from "./body.js";
+import type { HTTPRequestLines } from "../types.js";
 
 describe("setBody", () => {
   describe("valid input", () => {

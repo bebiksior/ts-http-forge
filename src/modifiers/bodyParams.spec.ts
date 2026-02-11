@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
-import { setBodyParam, removeBodyParam } from "./bodyParams";
-import type { HTTPRequestLines } from "../types";
+import { setBodyParam, removeBodyParam } from "./bodyParams.js";
+import type { HTTPRequestLines } from "../types.js";
 
 describe("setBodyParam", () => {
   describe("json body", () => {

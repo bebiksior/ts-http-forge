@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
-import { setPath } from "./path";
-import type { HTTPRequestLines } from "../types";
+import { setPath } from "./path.js";
+import type { HTTPRequestLines } from "../types.js";
 
 describe("setPath", () => {
   describe("valid input", () => {

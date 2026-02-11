@@ -18,7 +18,7 @@ type StringWithAutocomplete<T> = T | (string & Record<never, never>);
  * @example
  * ```ts
  * const method: HttpMethod = "GET";
- * const custom: HttpMethod = "CUSTOM"; // Also valid for security testing
+ * const custom: HttpMethod = "CUSTOM"; // also could be valid for testing
  * ```
  */
 export type HttpMethod = StringWithAutocomplete<"GET" | "POST" | "PUT" | "DELETE" | "PATCH" | "HEAD" | "OPTIONS" | "TRACE" | "CONNECT">;

@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
-import { setQuery, addQueryParam, removeQueryParam, upsertQueryParam } from "./query";
-import type { HTTPRequestLines } from "../types";
+import { setQuery, addQueryParam, removeQueryParam, upsertQueryParam } from "./query.js";
+import type { HTTPRequestLines } from "../types.js";
 
 describe("setQuery", () => {
   describe("valid input", () => {

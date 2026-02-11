@@ -1,5 +1,5 @@
-import type { HTTPRequestLines } from "../types";
-import { findBodyStartIndex } from "../readers/body";
+import type { HTTPRequestLines } from "../types.js";
+import { findBodyStartIndex } from "../readers/body.js";
 
 /**
  * Sets the raw request body, replacing any existing body content.

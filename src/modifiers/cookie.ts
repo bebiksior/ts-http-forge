@@ -1,6 +1,6 @@
 import { parse, serialize } from "cookie-es";
-import type { HTTPRequestLines } from "../types";
-import { findHeaderIndex, findHeaderInsertIndex } from "../readers/headers";
+import type { HTTPRequestLines } from "../types.js";
+import { findHeaderIndex, findHeaderInsertIndex } from "../readers/headers.js";
 
 function enc(data: string){
   if (data.slice(-1)===";"){ data = data.slice(0,-1) }

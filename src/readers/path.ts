@@ -1,4 +1,4 @@
-import type { HTTPRequestLines } from "../types";
+import type { HTTPRequestLines } from "../types.js";
 
 /**
  * Extracts the request path from the request line, excluding query string and fragment.

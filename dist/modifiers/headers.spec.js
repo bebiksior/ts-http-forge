@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { addHeader, setHeader, removeHeader } from "./headers";
+import { addHeader, setHeader, removeHeader } from "./headers.js";
 describe("addHeader", () => {
     describe("valid input", () => {
         it("should add header to request with existing headers", () => {

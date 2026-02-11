@@ -1,4 +1,4 @@
-import { findHeaderIndex, findHeaderInsertIndex } from "../readers/headers";
+import { findHeaderIndex, findHeaderInsertIndex } from "../readers/headers.js";
 /**
  * Adds a header to the request. Does not check for duplicates.
  * @param lines - The HTTP request lines array

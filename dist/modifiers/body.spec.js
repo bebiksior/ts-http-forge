@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { setBody } from "./body";
+import { setBody } from "./body.js";
 describe("setBody", () => {
     describe("valid input", () => {
         it("should replace body in request with existing body", () => {

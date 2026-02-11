@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { getMethod } from "./method";
+import { getMethod } from "./method.js";
 
 describe("getMethod", () => {
   it("should extract GET method", () => {

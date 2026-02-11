@@ -1,4 +1,4 @@
-import type { HTTPRequestLines, HttpMethod } from "../types";
+import type { HTTPRequestLines, HttpMethod } from "../types.js";
 /**
  * Options for setBodyParam function.
  */

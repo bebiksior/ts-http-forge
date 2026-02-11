@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { setMethod } from "./method";
+import { setMethod } from "./method.js";
 describe("setMethod", () => {
     describe("valid input", () => {
         it("should replace method in standard request line", () => {

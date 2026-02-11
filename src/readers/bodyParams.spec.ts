@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
-import { getBodyType, getBodyParams, getBodyParam, inferBodyType } from "./bodyParams";
-import type { HTTPRequestLines } from "../types";
+import { getBodyType, getBodyParams, getBodyParam, inferBodyType } from "./bodyParams.js";
+import type { HTTPRequestLines } from "../types.js";
 
 describe("getBodyType", () => {
   describe("content-type header detection", () => {

@@ -1,6 +1,6 @@
 import { parse } from "cookie-es";
-import type { HTTPRequestLines } from "../types";
-import { getHeader } from "./headers";
+import type { HTTPRequestLines } from "../types.js";
+import { getHeader } from "./headers.js";
 
 /**
  * Extracts all cookies from the Cookie header.

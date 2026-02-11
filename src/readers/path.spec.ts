@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { getPath } from "./path";
+import { getPath } from "./path.js";
 
 describe("getPath", () => {
   it("should extract simple path", () => {

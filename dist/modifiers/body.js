@@ -1,4 +1,4 @@
-import { findBodyStartIndex } from "../readers/body";
+import { findBodyStartIndex } from "../readers/body.js";
 /**
  * Sets the raw request body, replacing any existing body content.
  * @param lines - The HTTP request lines array

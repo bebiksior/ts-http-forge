@@ -1,4 +1,4 @@
-import type { HTTPRequestLines } from "../types";
+import type { HTTPRequestLines } from "../types.js";
 /**
  * Sets the raw request body, replacing any existing body content.
  * @param lines - The HTTP request lines array

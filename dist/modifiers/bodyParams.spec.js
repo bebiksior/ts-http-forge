@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { setBodyParam, removeBodyParam } from "./bodyParams";
+import { setBodyParam, removeBodyParam } from "./bodyParams.js";
 describe("setBodyParam", () => {
     describe("json body", () => {
         it("should add param to existing json body", () => {

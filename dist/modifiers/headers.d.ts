@@ -1,4 +1,4 @@
-import type { HTTPRequestLines } from "../types";
+import type { HTTPRequestLines } from "../types.js";
 /**
  * Adds a header to the request. Does not check for duplicates.
  * @param lines - The HTTP request lines array

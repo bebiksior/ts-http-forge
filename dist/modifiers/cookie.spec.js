@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { addCookie, setCookie, removeCookie } from "./cookie";
+import { addCookie, setCookie, removeCookie } from "./cookie.js";
 describe("addCookie", () => {
     describe("valid input", () => {
         it("should add cookie when no Cookie header exists", () => {

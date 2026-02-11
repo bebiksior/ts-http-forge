@@ -1,5 +1,5 @@
 import { parse } from "cookie-es";
-import { getHeader } from "./headers";
+import { getHeader } from "./headers.js";
 /**
  * Extracts all cookies from the Cookie header.
  * @param lines - The parsed HTTP request lines

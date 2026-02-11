@@ -15,7 +15,7 @@ import {
   setBodyParam,
   removeBodyParam,
   type SetBodyParamOptions,
-} from "./modifiers";
+} from "./modifiers/index.js";
 import {
   getMethod,
   getPath,
@@ -30,8 +30,8 @@ import {
   getBodyParams,
   getBodyParam,
   type BodyType,
-} from "./readers";
-import type { HttpMethod } from "./types";
+} from "./readers/index.js";
+import type { HttpMethod } from "./types.js";
 
 /**
  * A string-first HTTP request manipulation library for security researchers.
