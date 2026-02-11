@@ -1,6 +1,6 @@
-import type { HTTPRequestLines } from "../types";
-import { getBody } from "./body";
-import { getHeader } from "./headers";
+import type { HTTPRequestLines } from "../types.js";
+import { getBody } from "./body.js";
+import { getHeader } from "./headers.js";
 
 /** The detected body content type. */
 export type BodyType = "json" | "urlencoded" | "unknown";
@@ -126,6 +126,8 @@ function parseJsonParams(body: string): Record<string, string> | null {
         value === null
       ) {
         result[key] = String(value);
+      } else {
+        result[key] = JSON.stringify(value);
       }
     }
     return result;

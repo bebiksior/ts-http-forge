@@ -325,16 +325,20 @@ describe("getBodyParams", () => {
       expect(getBodyParams(lines)).toBeNull();
     });
 
-    it("should skip nested objects in JSON", () => {
+    it("should stringify nested objects and arrays in JSON", () => {
       const lines: HTTPRequestLines = [
         "POST /api HTTP/1.1",
         "Content-Type: application/json",
         "",
-        '{"simple": "value", "nested": {"a": "b"}}',
+        '{"simple": "value", "nested": {"a": "b"}, "items": [1, 2, 3]}',
       ];
 
       const result = getBodyParams(lines);
-      expect(result).toEqual({ simple: "value" });
+      expect(result).toEqual({
+        simple: "value",
+        nested: '{"a":"b"}',
+        items: "[1,2,3]",
+      });
     });
 
     it("should handle urlencoded with invalid encoding gracefully", () => {
