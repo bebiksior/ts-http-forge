@@ -53,7 +53,8 @@ export class HttpForge {
 
   /**
    * Creates a new HttpForge instance from a raw HTTP request string.
-   * Normalizes line endings by converting CRLF to LF internally.
+   * Splits the request line and headers into lines; the body is kept verbatim
+   * as the last element so its line endings survive.
    *
    * @param request - The raw HTTP request string
    * @throws Error if the request string is empty
@@ -63,7 +64,19 @@ export class HttpForge {
       throw new Error("Request cannot be empty");
     }
 
-    this.lines = request.split("\n").map((line) => line.replace(/\r$/, ""));
+    const rawLines = request.split("\n");
+    const separatorIndex = rawLines.findIndex(
+      (line, index) => index > 0 && line.trim() === ""
+    );
+    const headEnd =
+      separatorIndex === -1 ? rawLines.length : separatorIndex + 1;
+
+    this.lines = rawLines
+      .slice(0, headEnd)
+      .map((line) => line.replace(/\r$/, ""));
+    if (headEnd < rawLines.length) {
+      this.lines.push(rawLines.slice(headEnd).join("\n"));
+    }
   }
 
   /**
@@ -367,7 +380,8 @@ export class HttpForge {
   }
 
   /**
-   * Builds and returns the modified HTTP request as a string with CRLF line endings.
+   * Builds and returns the modified HTTP request as a string. The request line
+   * and headers use CRLF line endings; the body is emitted unchanged.
    *
    * @returns The HTTP request string ready for transmission
    */

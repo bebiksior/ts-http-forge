@@ -291,8 +291,7 @@ function replaceBody(lines: HTTPRequestLines, body: string): HTTPRequestLines {
     newLines.push("");
   }
 
-  const bodyLines = body.split(/\r?\n/);
-  newLines.push(...bodyLines);
+  newLines.push(body);
 
   return newLines;
 }

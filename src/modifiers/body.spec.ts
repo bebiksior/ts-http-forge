@@ -43,7 +43,7 @@ describe("setBody", () => {
       ]);
     });
 
-    it("should handle multiline body content", () => {
+    it("should keep multiline body content as one element", () => {
       const lines: HTTPRequestLines = [
         "POST /api/users HTTP/1.1",
         "Host: example.com",
@@ -57,13 +57,11 @@ describe("setBody", () => {
         "POST /api/users HTTP/1.1",
         "Host: example.com",
         "",
-        "line1",
-        "line2",
-        "line3",
+        "line1\nline2\nline3",
       ]);
     });
 
-    it("should handle body with CRLF line endings", () => {
+    it("should keep CRLF line endings in the body", () => {
       const lines: HTTPRequestLines = [
         "POST /api/users HTTP/1.1",
         "Host: example.com",
@@ -77,9 +75,7 @@ describe("setBody", () => {
         "POST /api/users HTTP/1.1",
         "Host: example.com",
         "",
-        "line1",
-        "line2",
-        "line3",
+        "line1\r\nline2\r\nline3",
       ]);
     });
 
@@ -339,10 +335,7 @@ describe("setBody", () => {
         "POST /api/users HTTP/1.1",
         "Content-Type: application/json",
         "",
-        "{",
-        '  "name": "John",',
-        '  "age": 30',
-        "}",
+        jsonBody,
       ]);
     });
 
@@ -360,9 +353,7 @@ describe("setBody", () => {
         "POST /api/users HTTP/1.1",
         "Content-Type: application/xml",
         "",
-        "<user>",
-        "  <name>John</name>",
-        "</user>",
+        xmlBody,
       ]);
     });
 

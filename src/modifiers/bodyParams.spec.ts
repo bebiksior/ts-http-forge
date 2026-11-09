@@ -269,7 +269,7 @@ describe("setBodyParam", () => {
 
       const result = setBodyParam(lines, "token", "abc");
 
-      expect(result[result.length - 1]).toBe("multiline");
+      expect(result[result.length - 1]).toBe("random garbage\nmultiline");
     });
 
     it("should infer urlencoded and modify single-line body with equals", () => {

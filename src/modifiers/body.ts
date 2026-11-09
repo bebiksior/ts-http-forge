@@ -34,8 +34,7 @@ function modify(lines: HTTPRequestLines, body: string): HTTPRequestLines {
     return newLines;
   }
 
-  const bodyLines = body.split(/\r?\n/);
-  newLines.push(...bodyLines);
+  newLines.push(body);
 
   return newLines;
 }
