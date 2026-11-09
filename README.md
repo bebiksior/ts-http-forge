@@ -59,7 +59,7 @@ console.log(forge.getBody());          // '{"data":"value"}'
 - `.removeCookie(name: string)` - Remove a cookie
 
 #### Body
-- `.body(body: string)` - Set the request body
+- `.body(body: string)` - Set the request body. The body is kept exactly as given: only the request line and headers are normalised to CRLF
 - `.setBodyParam(name: string, value: string, options?)` - Set/add a body parameter (works with URL-encoded and JSON bodies)
 - `.removeBodyParam(name: string)` - Remove a body parameter
 
