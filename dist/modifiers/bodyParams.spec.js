@@ -204,7 +204,7 @@ describe("setBodyParam", () => {
                 "multiline",
             ];
             const result = setBodyParam(lines, "token", "abc");
-            expect(result[result.length - 1]).toBe("multiline");
+            expect(result[result.length - 1]).toBe("random garbage\nmultiline");
         });
         it("should infer urlencoded and modify single-line body with equals", () => {
             const lines = [
@@ -231,6 +231,16 @@ describe("setBodyParam", () => {
             const result = setBodyParam(lines, "token", "abc");
             expect(result).toContain("Content-Type: application/json");
             expect(result[result.length - 1]).toBe('{"token":"abc"}');
+        });
+        it("should not throw on malformed percent-encoding in a key", () => {
+            const lines = [
+                "POST /api HTTP/1.1",
+                "Content-Type: application/x-www-form-urlencoded",
+                "",
+                "a%=1&b=2",
+            ];
+            expect(setBodyParam(lines, "b", "3").at(-1)).toBe("a%=1&b=3");
+            expect(removeBodyParam(lines, "b").at(-1)).toBe("a%=1");
         });
         it("should handle malformed urlencoded gracefully", () => {
             const lines = [

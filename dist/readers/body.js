@@ -12,7 +12,7 @@ export function getBody(lines) {
     const bodyLines = lines.slice(bodyStartIndex);
     if (bodyLines.length === 0)
         return null;
-    if (bodyLines.length === 1 && bodyLines[0].trim() === "")
+    if (bodyLines.length === 1 && bodyLines[0] === "")
         return null;
     return bodyLines.join("\n");
 }

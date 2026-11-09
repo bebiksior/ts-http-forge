@@ -227,6 +227,15 @@ describe("getBodyParams", () => {
         });
     });
     describe("invalid/malformed body", () => {
+        it("should return malformed percent-encoding as written", () => {
+            const lines = [
+                "POST /api HTTP/1.1",
+                "Content-Type: application/x-www-form-urlencoded",
+                "",
+                "a=100%&b%=1",
+            ];
+            expect(getBodyParams(lines)).toEqual({ a: "100%", "b%": "1" });
+        });
         it("should return null for invalid JSON", () => {
             const lines = [
                 "POST /api HTTP/1.1",
@@ -284,7 +293,7 @@ describe("getBodyParams", () => {
                 "",
                 "key=%ZZ&valid=value",
             ];
-            expect(() => getBodyParams(lines)).toThrow();
+            expect(getBodyParams(lines)).toEqual({ key: "%ZZ", valid: "value" });
         });
         it("should handle empty urlencoded body", () => {
             const lines = [

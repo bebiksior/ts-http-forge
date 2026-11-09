@@ -16,7 +16,7 @@ export function setBody(lines, body) {
 function modify(lines, body) {
     const bodyStartIndex = findBodyStartIndex(lines);
     const newLines = [...lines.slice(0, bodyStartIndex)];
-    if (!body.trim()) {
+    if (body === "") {
         const hadSeparator = bodyStartIndex > 0 && lines[bodyStartIndex - 1].trim() === "";
         if (hadSeparator) {
             newLines.push("");
@@ -26,7 +26,6 @@ function modify(lines, body) {
         }
         return newLines;
     }
-    const bodyLines = body.split(/\r?\n/);
-    newLines.push(...bodyLines);
+    newLines.push(body);
     return newLines;
 }

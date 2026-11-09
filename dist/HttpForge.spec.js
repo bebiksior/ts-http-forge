@@ -20,6 +20,30 @@ describe("HttpForge", () => {
             const result = HttpForge.create(request).method("POST").build();
             expect(result).toBe("POST /api/users HTTP/1.1\r\nHost: example.com\r\n\r\n");
         });
+        it("should keep CRLF line endings inside the body", () => {
+            const body = "--b\r\nContent-Disposition: form-data; name=\"a\"\r\n\r\n1\r\n--b--\r\n";
+            const request = `POST /upload HTTP/1.1\r\nHost: example.com\r\n\r\n${body}`;
+            const forge = HttpForge.create(request);
+            expect(forge.getBody()).toBe(body);
+            expect(forge.build()).toBe(request);
+        });
+        it("should keep LF line endings inside the body", () => {
+            const body = '{\n  "a": 1\n}';
+            const request = `POST /api HTTP/1.1\nHost: example.com\n\n${body}`;
+            const forge = HttpForge.create(request).setHeader("X-Test", "1");
+            expect(forge.getBody()).toBe(body);
+            expect(forge.build()).toBe(`POST /api HTTP/1.1\r\nHost: example.com\r\nX-Test: 1\r\n\r\n${body}`);
+        });
+        it("should keep a lone CR inside the body", () => {
+            const request = "POST /api HTTP/1.1\r\nHost: example.com\r\n\r\na\rb\r\nc\r";
+            expect(HttpForge.create(request).build()).toBe(request);
+        });
+        it("should write a new body exactly as given", () => {
+            const request = "POST /api HTTP/1.1\r\nHost: example.com\r\n\r\nold";
+            const forge = HttpForge.create(request).body("line1\nline2\r\nline3");
+            expect(forge.getBody()).toBe("line1\nline2\r\nline3");
+            expect(forge.build()).toBe("POST /api HTTP/1.1\r\nHost: example.com\r\n\r\nline1\nline2\r\nline3");
+        });
         it("should handle mixed line endings", () => {
             const request = "GET /api/users HTTP/1.1\r\nHost: example.com\nContent-Length: 0\r\n\r\n";
             const result = HttpForge.create(request).method("PUT").build();

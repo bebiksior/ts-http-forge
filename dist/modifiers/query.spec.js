@@ -233,3 +233,34 @@ describe("removeQueryParam", () => {
         });
     });
 });
+describe("query parameter keys", () => {
+    it("should keep a key with a space from ending the request target", () => {
+        let lines = ["GET /path HTTP/1.1"];
+        lines = addQueryParam(lines, "user name", "1");
+        lines = addQueryParam(lines, "b", "2");
+        expect(lines[0]).toBe("GET /path?user%20name=1&b=2 HTTP/1.1");
+    });
+    it("should encode separators in a key", () => {
+        const lines = ["GET /path HTTP/1.1"];
+        expect(addQueryParam(lines, "a&b#c=d", "1")[0]).toBe("GET /path?a%26b%23c%3Dd=1 HTTP/1.1");
+        expect(upsertQueryParam(lines, "a&b", "1")[0]).toBe("GET /path?a%26b=1 HTTP/1.1");
+    });
+    it("should leave brackets and existing percent-encoding in a key", () => {
+        const lines = ["GET /path HTTP/1.1"];
+        expect(addQueryParam(lines, "items[]", "1")[0]).toBe("GET /path?items[]=1 HTTP/1.1");
+        expect(addQueryParam(lines, "a%5Bb%5D", "1")[0]).toBe("GET /path?a%5Bb%5D=1 HTTP/1.1");
+    });
+    it("should remove a parameter whose key is percent-encoded", () => {
+        const lines = ["GET /path?user%20name=1&b=2 HTTP/1.1"];
+        expect(removeQueryParam(lines, "user name")[0]).toBe("GET /path?b=2 HTTP/1.1");
+        expect(removeQueryParam(lines, "user%20name")[0]).toBe("GET /path?b=2 HTTP/1.1");
+    });
+    it("should update a parameter whose key is percent-encoded", () => {
+        const lines = ["GET /path?user%20name=1&b=2 HTTP/1.1"];
+        expect(upsertQueryParam(lines, "user name", "3")[0]).toBe("GET /path?user%20name=3&b=2 HTTP/1.1");
+    });
+    it("should not throw on a malformed existing key", () => {
+        const lines = ["GET /path?a%=1&b=2 HTTP/1.1"];
+        expect(removeQueryParam(lines, "b")[0]).toBe("GET /path?a%=1 HTTP/1.1");
+    });
+});

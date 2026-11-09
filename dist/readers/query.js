@@ -1,3 +1,4 @@
+import { decodeComponent } from "../encoding.js";
 /**
  * Extracts the raw query string from the request line.
  * @param lines - The parsed HTTP request lines
@@ -32,7 +33,7 @@ export function getQueryParams(lines) {
             continue;
         const [key, ...rest] = pair.split("=");
         const value = rest.join("=");
-        params[key] = value ? decodeURIComponent(value) : "";
+        params[decodeComponent(key)] = decodeComponent(value);
     }
     return params;
 }

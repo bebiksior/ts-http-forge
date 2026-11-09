@@ -35,7 +35,7 @@ describe("setBody", () => {
                 '{"name": "john"}',
             ]);
         });
-        it("should handle multiline body content", () => {
+        it("should keep multiline body content as one element", () => {
             const lines = [
                 "POST /api/users HTTP/1.1",
                 "Host: example.com",
@@ -47,12 +47,10 @@ describe("setBody", () => {
                 "POST /api/users HTTP/1.1",
                 "Host: example.com",
                 "",
-                "line1",
-                "line2",
-                "line3",
+                "line1\nline2\nline3",
             ]);
         });
-        it("should handle body with CRLF line endings", () => {
+        it("should keep CRLF line endings in the body", () => {
             const lines = [
                 "POST /api/users HTTP/1.1",
                 "Host: example.com",
@@ -64,9 +62,7 @@ describe("setBody", () => {
                 "POST /api/users HTTP/1.1",
                 "Host: example.com",
                 "",
-                "line1",
-                "line2",
-                "line3",
+                "line1\r\nline2\r\nline3",
             ]);
         });
         it("should remove body when empty string provided", () => {
@@ -84,7 +80,7 @@ describe("setBody", () => {
                 "",
             ]);
         });
-        it("should remove body when only whitespace provided", () => {
+        it("should keep a body that is only whitespace", () => {
             const lines = [
                 "POST /api/users HTTP/1.1",
                 "Host: example.com",
@@ -96,7 +92,7 @@ describe("setBody", () => {
                 "POST /api/users HTTP/1.1",
                 "Host: example.com",
                 "",
-                "",
+                "   \n  \t  ",
             ]);
         });
         it("should replace multiline body with single line", () => {
@@ -274,10 +270,7 @@ describe("setBody", () => {
                 "POST /api/users HTTP/1.1",
                 "Content-Type: application/json",
                 "",
-                "{",
-                '  "name": "John",',
-                '  "age": 30',
-                "}",
+                jsonBody,
             ]);
         });
         it("should handle XML body content", () => {
@@ -292,9 +285,7 @@ describe("setBody", () => {
                 "POST /api/users HTTP/1.1",
                 "Content-Type: application/xml",
                 "",
-                "<user>",
-                "  <name>John</name>",
-                "</user>",
+                xmlBody,
             ]);
         });
         it("should handle form data body", () => {

@@ -20,7 +20,8 @@ export declare class HttpForge {
     private lines;
     /**
      * Creates a new HttpForge instance from a raw HTTP request string.
-     * Normalizes line endings by converting CRLF to LF internally.
+     * Splits the request line and headers into lines; the body is kept verbatim
+     * as the last element so its line endings survive.
      *
      * @param request - The raw HTTP request string
      * @throws Error if the request string is empty
@@ -228,7 +229,8 @@ export declare class HttpForge {
      */
     getBodyParam(name: string): string | null;
     /**
-     * Builds and returns the modified HTTP request as a string with CRLF line endings.
+     * Builds and returns the modified HTTP request as a string. The request line
+     * and headers use CRLF line endings; the body is emitted unchanged.
      *
      * @returns The HTTP request string ready for transmission
      */

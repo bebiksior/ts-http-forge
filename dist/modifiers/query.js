@@ -1,3 +1,4 @@
+import { encodeQueryKey, isSameKey } from "../encoding.js";
 /**
  * Sets the entire query string, replacing any existing query.
  * @param lines - The HTTP request lines array
@@ -15,7 +16,7 @@ export function setQuery(lines, query) {
 /**
  * Adds a query parameter, appending to existing parameters.
  * @param lines - The HTTP request lines array
- * @param key - The parameter key
+ * @param key - The parameter key (whitespace, `#`, `&` and `=` are URL-encoded)
  * @param value - The parameter value (will be URL-encoded)
  * @returns The modified lines array with the added parameter
  * @throws If the request is empty or key is empty
@@ -93,7 +94,7 @@ function replaceQueryInLine(requestLine, newQuery) {
 }
 function addQueryParamToLine(requestLine, key, value) {
     const questionMarkIndex = requestLine.indexOf("?");
-    const param = `${key}=${encodeURIComponent(value)}`;
+    const param = `${encodeQueryKey(key)}=${encodeURIComponent(value)}`;
     if (questionMarkIndex === -1) {
         const spaceIndex = requestLine.indexOf(" ", requestLine.indexOf(" ") + 1);
         if (spaceIndex === -1) {
@@ -119,7 +120,7 @@ function removeQueryParamFromLine(requestLine, key) {
     const params = existingQuery.split("&");
     const filteredParams = params.filter(param => {
         const [paramKey] = param.split("=");
-        return paramKey !== key;
+        return !isSameKey(paramKey, key);
     });
     const newQuery = filteredParams.join("&");
     const remainingPart = spaceAfterQuery === -1 ? "" : requestLine.substring(spaceAfterQuery);
@@ -130,7 +131,7 @@ function removeQueryParamFromLine(requestLine, key) {
 }
 function upsertQueryParamInLine(requestLine, key, value) {
     const questionMarkIndex = requestLine.indexOf("?");
-    const param = `${key}=${encodeURIComponent(value)}`;
+    const param = `${encodeQueryKey(key)}=${encodeURIComponent(value)}`;
     if (questionMarkIndex === -1) {
         const spaceIndex = requestLine.indexOf(" ", requestLine.indexOf(" ") + 1);
         if (spaceIndex === -1) {
@@ -148,10 +149,10 @@ function upsertQueryParamInLine(requestLine, key, value) {
     const params = existingQuery.split("&");
     let paramExists = false;
     const updatedParams = params.map(p => {
-        const [paramKey, ...rest] = p.split("=");
-        if (paramKey === key) {
+        const [paramKey] = p.split("=");
+        if (isSameKey(paramKey, key)) {
             paramExists = true;
-            return param;
+            return `${paramKey}=${encodeURIComponent(value)}`;
         }
         return p;
     });

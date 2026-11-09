@@ -10,7 +10,7 @@ export declare function setQuery(lines: HTTPRequestLines, query: string): HTTPRe
 /**
  * Adds a query parameter, appending to existing parameters.
  * @param lines - The HTTP request lines array
- * @param key - The parameter key
+ * @param key - The parameter key (whitespace, `#`, `&` and `=` are URL-encoded)
  * @param value - The parameter value (will be URL-encoded)
  * @returns The modified lines array with the added parameter
  * @throws If the request is empty or key is empty

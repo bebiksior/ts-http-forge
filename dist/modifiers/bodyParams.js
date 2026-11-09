@@ -2,6 +2,7 @@ import { getBody, findBodyStartIndex } from "../readers/body.js";
 import { getBodyType, inferBodyType } from "../readers/bodyParams.js";
 import { getMethod } from "../readers/method.js";
 import { findHeaderIndex, findHeaderInsertIndex } from "../readers/headers.js";
+import { decodeComponent } from "../encoding.js";
 /**
  * Sets a body parameter, auto-detecting JSON or urlencoded format.
  * Creates body and Content-Type header if needed. Switches GET/HEAD to POST.
@@ -163,7 +164,7 @@ function setUrlencodedParam(body, name, value) {
             continue;
         }
         const key = pair.substring(0, eqIndex);
-        if (decodeURIComponent(key) === name) {
+        if (decodeComponent(key) === name) {
             if (!found) {
                 result.push(newPair);
                 found = true;
@@ -188,7 +189,7 @@ function removeUrlencodedParam(body, name) {
             continue;
         }
         const key = pair.substring(0, eqIndex);
-        if (decodeURIComponent(key) !== name) {
+        if (decodeComponent(key) !== name) {
             result.push(pair);
         }
     }
@@ -211,7 +212,6 @@ function replaceBody(lines, body) {
     if (!hasEmptySeparator && bodyStartIndex === lines.length) {
         newLines.push("");
     }
-    const bodyLines = body.split(/\r?\n/);
-    newLines.push(...bodyLines);
+    newLines.push(body);
     return newLines;
 }

@@ -1,5 +1,6 @@
 import { getBody } from "./body.js";
 import { getHeader } from "./headers.js";
+import { decodeComponent } from "../encoding.js";
 /**
  * Determines the body type from Content-Type header or by inference.
  * @param lines - The parsed HTTP request lines
@@ -121,8 +122,8 @@ function parseUrlencodedParams(body) {
         const eqIndex = pair.indexOf("=");
         if (eqIndex === -1)
             continue;
-        const key = decodeURIComponent(pair.substring(0, eqIndex));
-        const value = decodeURIComponent(pair.substring(eqIndex + 1));
+        const key = decodeComponent(pair.substring(0, eqIndex));
+        const value = decodeComponent(pair.substring(eqIndex + 1));
         result[key] = value;
     }
     return Object.keys(result).length > 0 ? result : null;
