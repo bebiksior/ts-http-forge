@@ -105,4 +105,14 @@ describe("getQueryParams", () => {
       equation: "a=b=c",
     });
   });
+
+  it("should decode URL-encoded keys", () => {
+    const lines = ["GET /api?user%20name=1 HTTP/1.1"];
+    expect(getQueryParams(lines)).toEqual({ "user name": "1" });
+  });
+
+  it("should return malformed percent-encoding as written", () => {
+    const lines = ["GET /api?q=100%&a%=1 HTTP/1.1"];
+    expect(getQueryParams(lines)).toEqual({ q: "100%", "a%": "1" });
+  });
 });

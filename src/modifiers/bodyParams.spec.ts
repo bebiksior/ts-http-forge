@@ -307,6 +307,18 @@ describe("setBodyParam", () => {
       expect(result[result.length - 1]).toBe('{"token":"abc"}');
     });
 
+    it("should not throw on malformed percent-encoding in a key", () => {
+      const lines: HTTPRequestLines = [
+        "POST /api HTTP/1.1",
+        "Content-Type: application/x-www-form-urlencoded",
+        "",
+        "a%=1&b=2",
+      ];
+
+      expect(setBodyParam(lines, "b", "3").at(-1)).toBe("a%=1&b=3");
+      expect(removeBodyParam(lines, "b").at(-1)).toBe("a%=1");
+    });
+
     it("should handle malformed urlencoded gracefully", () => {
       const lines: HTTPRequestLines = [
         "POST /api HTTP/1.1",

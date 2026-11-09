@@ -3,6 +3,7 @@ import { getBody, findBodyStartIndex } from "../readers/body.js";
 import { getBodyType, inferBodyType, BodyType } from "../readers/bodyParams.js";
 import { getMethod } from "../readers/method.js";
 import { findHeaderIndex, findHeaderInsertIndex } from "../readers/headers.js";
+import { decodeComponent } from "../encoding.js";
 
 /**
  * Options for setBodyParam function.
@@ -233,7 +234,7 @@ function setUrlencodedParam(body: string, name: string, value: string): string {
     }
 
     const key = pair.substring(0, eqIndex);
-    if (decodeURIComponent(key) === name) {
+    if (decodeComponent(key) === name) {
       if (!found) {
         result.push(newPair);
         found = true;
@@ -262,7 +263,7 @@ function removeUrlencodedParam(body: string, name: string): string {
     }
 
     const key = pair.substring(0, eqIndex);
-    if (decodeURIComponent(key) !== name) {
+    if (decodeComponent(key) !== name) {
       result.push(pair);
     }
   }
