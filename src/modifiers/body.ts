@@ -23,7 +23,7 @@ function modify(lines: HTTPRequestLines, body: string): HTTPRequestLines {
   const bodyStartIndex = findBodyStartIndex(lines);
   const newLines = [...lines.slice(0, bodyStartIndex)];
 
-  if (!body.trim()) {
+  if (body === "") {
     const hadSeparator =
       bodyStartIndex > 0 && lines[bodyStartIndex - 1].trim() === "";
     if (hadSeparator) {

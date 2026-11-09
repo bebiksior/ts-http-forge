@@ -97,7 +97,7 @@ describe("setBody", () => {
       ]);
     });
 
-    it("should remove body when only whitespace provided", () => {
+    it("should keep a body that is only whitespace", () => {
       const lines: HTTPRequestLines = [
         "POST /api/users HTTP/1.1",
         "Host: example.com",
@@ -111,7 +111,7 @@ describe("setBody", () => {
         "POST /api/users HTTP/1.1",
         "Host: example.com",
         "",
-        "",
+        "   \n  \t  ",
       ]);
     });
 

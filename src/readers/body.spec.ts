@@ -58,6 +58,16 @@ describe("getBody", () => {
     expect(getBody(lines)).toBeNull();
   });
 
+  it("should return a body that is only whitespace", () => {
+    const lines = [
+      "POST /api HTTP/1.1",
+      "Host: example.com",
+      "",
+      " ",
+    ];
+    expect(getBody(lines)).toBe(" ");
+  });
+
   it("should handle body with empty lines", () => {
     const lines = [
       "POST /api HTTP/1.1",
