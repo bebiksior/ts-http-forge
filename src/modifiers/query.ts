@@ -1,4 +1,5 @@
 import type { HTTPRequestLines } from "../types.js";
+import { encodeQueryKey, isSameKey } from "../encoding.js";
 
 /**
  * Sets the entire query string, replacing any existing query.
@@ -17,7 +18,7 @@ export function setQuery(lines: HTTPRequestLines, query: string): HTTPRequestLin
 /**
  * Adds a query parameter, appending to existing parameters.
  * @param lines - The HTTP request lines array
- * @param key - The parameter key
+ * @param key - The parameter key (whitespace, `#`, `&` and `=` are URL-encoded)
  * @param value - The parameter value (will be URL-encoded)
  * @returns The modified lines array with the added parameter
  * @throws If the request is empty or key is empty
@@ -107,7 +108,7 @@ function replaceQueryInLine(requestLine: string, newQuery: string): string {
 
 function addQueryParamToLine(requestLine: string, key: string, value: string): string {
   const questionMarkIndex = requestLine.indexOf("?");
-  const param = `${key}=${encodeURIComponent(value)}`;
+  const param = `${encodeQueryKey(key)}=${encodeURIComponent(value)}`;
 
   if (questionMarkIndex === -1) {
     const spaceIndex = requestLine.indexOf(" ", requestLine.indexOf(" ") + 1);
@@ -141,7 +142,7 @@ function removeQueryParamFromLine(requestLine: string, key: string): string {
   const params = existingQuery.split("&");
   const filteredParams = params.filter(param => {
     const [paramKey] = param.split("=");
-    return paramKey !== key;
+    return !isSameKey(paramKey, key);
   });
 
   const newQuery = filteredParams.join("&");
@@ -156,7 +157,7 @@ function removeQueryParamFromLine(requestLine: string, key: string): string {
 
 function upsertQueryParamInLine(requestLine: string, key: string, value: string): string {
   const questionMarkIndex = requestLine.indexOf("?");
-  const param = `${key}=${encodeURIComponent(value)}`;
+  const param = `${encodeQueryKey(key)}=${encodeURIComponent(value)}`;
 
   if (questionMarkIndex === -1) {
     const spaceIndex = requestLine.indexOf(" ", requestLine.indexOf(" ") + 1);
@@ -178,10 +179,10 @@ function upsertQueryParamInLine(requestLine: string, key: string, value: string)
   const params = existingQuery.split("&");
   let paramExists = false;
   const updatedParams = params.map(p => {
-    const [paramKey, ...rest] = p.split("=");
-    if (paramKey === key) {
+    const [paramKey] = p.split("=");
+    if (isSameKey(paramKey, key)) {
       paramExists = true;
-      return param;
+      return `${paramKey}=${encodeURIComponent(value)}`;
     }
     return p;
   });
